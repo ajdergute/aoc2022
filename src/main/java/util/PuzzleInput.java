@@ -1,0 +1,18 @@
+package util;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
+public class PuzzleInput {
+    public static List<String> getPuzzleInput(String day) {
+        Path path = Paths.get("src/main/java/", day, "/input.txt");
+        try {
+            return Files.readAllLines(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
