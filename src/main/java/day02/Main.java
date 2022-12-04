@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Path path = Paths.get("src/day02/input.txt");
+        Path path = Paths.get("src/main/java/day02/input.txt");
         try {
             List<String> lines = Files.readAllLines(path);
             int totalScore = 0;

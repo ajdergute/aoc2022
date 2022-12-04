@@ -84,7 +84,7 @@ public class Main {
     }
 
     private static List<String> getPuzzleInput() {
-        Path path = Paths.get("src/day03/input.txt");
+        Path path = Paths.get("src/main/java/day03/input.txt");
         try {
             return Files.readAllLines(path);
         } catch (IOException e) {

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Path path = Paths.get("src/day01/input.txt");
+        Path path = Paths.get("src/main/java/day01/input.txt");
         try {
             List<String> lines = Files.readAllLines(path);
             List<Integer> calories = new ArrayList<>();
