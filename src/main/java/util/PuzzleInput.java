@@ -15,4 +15,13 @@ public class PuzzleInput {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<String> getTestInput(String day) {
+        Path path = Paths.get("src/main/java/", day, "/testInput.txt");
+        try {
+            return Files.readAllLines(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
