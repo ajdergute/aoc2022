@@ -29,12 +29,6 @@ public class Main {
             Arrays.fill(visibleTrees[j], -1);
         }
 
-        /*
-         * x1 -> y1 y2 y3
-         * x2
-         * x3
-         */
-
         // top => bottom
         visibleTrees[0] = trees[0];
         for (int y = 1; y < size - 1; y++) {
@@ -54,12 +48,10 @@ public class Main {
             visibleTrees[x][0] = trees[x][0];
             int treeHeight = visibleTrees[x][0];
             for (int y = 1; y < size; y++) {
-                if (visibleTrees[x][y] == null || visibleTrees[x][y] == -1) {
-                    int height = treeIsVisible(treeHeight, trees[x][y]);
-                    if (height > -1) {
-                        visibleTrees[x][y] = height;
-                        treeHeight = height;
-                    }
+                int height = treeIsVisible(treeHeight, trees[x][y]);
+                if (height > -1) {
+                    visibleTrees[x][y] = height;
+                    treeHeight = height;
                 }
             }
         }
@@ -70,12 +62,10 @@ public class Main {
         for (int y = 1; y < size - 1; y++) {
             int treeHeight = visibleTrees[size - 1][y];
             for (int x = size - 2; x > 0; x--) {
-                if (visibleTrees[x][y] == null || visibleTrees[x][y] == -1) {
-                    int height = treeIsVisible(treeHeight, trees[x][y]);
-                    if (height > -1) {
-                        visibleTrees[x][y] = height;
-                        treeHeight = height;
-                    }
+                int height = treeIsVisible(treeHeight, trees[x][y]);
+                if (height > -1) {
+                    visibleTrees[x][y] = height;
+                    treeHeight = height;
                 }
             }
         }
@@ -87,12 +77,10 @@ public class Main {
             visibleTrees[x][size - 1] = trees[x][size - 1];
             int treeHeight = visibleTrees[x][size - 1];
             for (int y = size - 2; y > 0; y--) {
-                if (visibleTrees[x][y] == null || visibleTrees[x][y] == -1) {
-                    int height = treeIsVisible(treeHeight, trees[x][y]);
-                    if (height > -1) {
-                        visibleTrees[x][y] = height;
-                        treeHeight = height;
-                    }
+                int height = treeIsVisible(treeHeight, trees[x][y]);
+                if (height > -1) {
+                    visibleTrees[x][y] = height;
+                    treeHeight = height;
                 }
             }
             visibleTrees[x][size - 1] = trees[x][size - 1];
