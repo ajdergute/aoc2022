@@ -3,20 +3,20 @@ package day11;
 import java.util.List;
 import java.util.Objects;
 
-public class Monkey implements Comparable {
+public class Monkey implements Comparable<Monkey> {
     private int inspectedItems;
 
-    private List<Item> items;
+    private final List<Long> items;
 
-    private Operation operation;
+    private final Operation operation;
 
-    private Integer divisibleBy;
+    private final Integer divisibleBy;
 
-    private Integer throwToTrue;
+    private final Integer throwToTrue;
 
-    private Integer throwToFalse;
+    private final Integer throwToFalse;
 
-    public Monkey(List<Item> items, Operation operation,
+    public Monkey(List<Long> items, Operation operation,
                   Integer divisibleBy, Integer throwToTrue, Integer throwToFalse) {
         this.items = items;
         this.operation = operation;
@@ -25,35 +25,33 @@ public class Monkey implements Comparable {
         this.throwToFalse = throwToFalse;
     }
 
-    public List<Item> getItems() {
+    public List<Long> getItems() {
         return items;
     }
 
-    public boolean addItem(Item item) {
-        return items.add(item);
+    public void addItem(Long item) {
+        items.add(item);
     }
 
-    public boolean removeItem(Item item) {
-        return items.remove(item);
+    public Integer getDivisibleBy() {
+        return divisibleBy;
     }
 
-    public Integer getNewWorryLevel(Integer item) {
-        inspectedItems++;
-
-        Integer operand1;
+    public Long getNewWorryLevel(Long item, Integer divisor) {
+        Long operand1;
         if ("old".equals(operation.getOperand1())) {
             operand1 = item;
         } else {
-            operand1 = Integer.parseInt(operation.getOperand1());
+            operand1 = Long.parseLong(operation.getOperand1());
         }
-        Integer operand2;
+        Long operand2;
         if ("old".equals(operation.getOperand2())) {
             operand2 = item;
         } else {
-            operand2 = Integer.parseInt(operation.getOperand2());
+            operand2 = Long.parseLong(operation.getOperand2());
         }
 
-        int worryLevel;
+        long worryLevel;
         switch (operation.getOperator()) {
             case "+" -> worryLevel = operand1 + operand2;
             case "-" -> worryLevel = operand1 - operand2;
@@ -61,23 +59,32 @@ public class Monkey implements Comparable {
             case "/" -> worryLevel = operand1 / operand2;
             default -> throw new IllegalArgumentException("unknown operator: " + operation.getOperator());
         }
+
+        if (3L == divisor) {
+            worryLevel = worryLevel / divisor;
+        } else {
+            worryLevel = worryLevel % divisor;
+        }
+
+        inspectedItems++;
+
         return worryLevel;
     }
 
-    public Integer throwToMonkey(Integer worryLevel) {
-        if (worryLevel % divisibleBy == 0) {
+    public Integer throwToMonkey(Long worryLevel) {
+        if (worryLevel % divisibleBy == 0L) {
             return throwToTrue;
         } else {
             return throwToFalse;
         }
     }
 
-    public int getInspectedItems() {
+    public Integer getInspectedItems() {
         return inspectedItems;
     }
 
-    public boolean removeItems(List<Item> removedItems) {
-        return items.removeAll(removedItems);
+    public void clearItems() {
+        items.clear();
     }
 
     @Override
@@ -106,17 +113,7 @@ public class Monkey implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        if (o instanceof Monkey) {
-            Monkey monkey = (Monkey) o;
-            if (monkey.inspectedItems > this.inspectedItems) {
-                return 1;
-            } else if (monkey.inspectedItems == this.inspectedItems) {
-                return 0;
-            } else {
-                return -1;
-            }
-        }
-        throw new IllegalArgumentException("no monkey object given");
+    public int compareTo(Monkey o) {
+        return Integer.compare(o.inspectedItems, this.inspectedItems);
     }
 }
