@@ -29,6 +29,67 @@ public class Main {
             Arrays.fill(visibleTrees[j], -1);
         }
 
+        calculateVisibleTrees(trees, size, visibleTrees);
+
+        long countOfVisibleTrees = Arrays.stream(visibleTrees).flatMap(Stream::of).filter(t -> t != -1).count();
+
+        System.out.println("Trees visible from outside: " + countOfVisibleTrees);
+
+        int scenicScore = calculateMaxScenicScore(visibleTrees, trees, size);
+
+        System.out.println("Scenic score is: " + scenicScore);
+    }
+
+    private static int calculateMaxScenicScore(Integer[][] visibleTrees, Integer[][] trees, int size) {
+        int scenicScore = 0;
+        for (int x = 1; x < size - 1; x++) {
+            for (int y = 1; y < size - 1; y++) {
+                if (visibleTrees[x][y] != -1) {
+                    int score = calculateScenicScore(trees, x, y);
+                    scenicScore = Math.max(score, scenicScore);
+                }
+            }
+        }
+        return scenicScore;
+    }
+
+    private static int calculateScenicScore(Integer[][] visibleTrees, int x, int y) {
+        // point -> right
+        int distanceR = 1;
+        for (int i = y; i < visibleTrees.length - 2; i++) {
+            if (visibleTrees[x][y] <= visibleTrees[x][i + 1]) {
+                break;
+            }
+            distanceR++;
+        }
+        // point -> bottom
+        int distanceB = 1;
+        for (int i = x; i < visibleTrees.length - 2; i++) {
+            if (visibleTrees[x][y] <= visibleTrees[i + 1][y]) {
+                break;
+            }
+            distanceB++;
+        }
+        // point -> left
+        int distanceL = 1;
+        for (int i = y; i > 1; i--) {
+            if (visibleTrees[x][y] <= visibleTrees[x][i - 1]) {
+                break;
+            }
+            distanceL++;
+        }
+        // point -> top
+        int distanceT = 1;
+        for (int i = x; i > 1; i--) {
+            if (visibleTrees[x][y] <= visibleTrees[i - 1][y]) {
+                break;
+            }
+            distanceT++;
+        }
+        return distanceR * distanceL * distanceB * distanceT;
+    }
+
+    private static void calculateVisibleTrees(Integer[][] trees, int size, Integer[][] visibleTrees) {
         // top => bottom
         visibleTrees[0] = trees[0];
         for (int y = 1; y < size - 1; y++) {
@@ -86,10 +147,6 @@ public class Main {
             visibleTrees[x][size - 1] = trees[x][size - 1];
         }
         writeTestFile(visibleTrees);
-
-        long countOfVisibleTrees = Arrays.stream(visibleTrees).flatMap(Stream::of).filter(t -> t != -1).count();
-
-        System.out.println("Trees visible from outside: " + countOfVisibleTrees);
     }
 
     private static void writeTestFile(Integer[][] visibleTrees) {
