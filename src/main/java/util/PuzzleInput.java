@@ -16,6 +16,10 @@ public class PuzzleInput {
         }
     }
 
+    public static List<String> getPuzzleInput(int day) {
+        return getPuzzleInput("day" + day);
+    }
+
     public static List<String> getTestInput(String day) {
         Path path = Paths.get("src/main/java/", day, "/testInput.txt");
         try {
@@ -23,5 +27,9 @@ public class PuzzleInput {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static List<String> getTestInput(int day) {
+        return getTestInput("day" + day);
     }
 }
